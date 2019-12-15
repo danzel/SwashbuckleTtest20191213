@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -16,32 +15,44 @@ namespace TestApp.Controllers
 			_logger = logger;
 		}
 
-		[HttpGet]
+		[HttpGet("Get", Name = "GetIt")]
 		public MyType Get()
 		{
-			return new MyType
-			{
-				Stringy = "a string",
-				Integer = 1009,
-				MyEnumValue = MyEnum.Value2
-			};
+			return new MyType();
+		}
+
+		[HttpPost("PostRequired", Name = "PostRequired")]
+		public void BodyPostRequired([FromBody, Required] MyType asd)
+		{
+		}
+
+		[HttpPost("PostNonRequired", Name = "PostNotRequired")]
+		public void BodyPost([FromBody] MyType asd)
+		{
 		}
 	}
 
 	public class MyType
 	{
 		[Required]
-		public string Stringy { get; set; }
+		public string RequiredString { get; set; }
 
-		public int Integer { get; set; }
+		public string NonRequiredString { get; set; }
 
-		public MyEnum MyEnumValue { get; set; }
+		[Required]
+		public int RequiredInteger { get; set; }
+
+		public int NonRequiredInteger { get; set; }
+
+		[Required]
+		public MyInnerType RequiredInner { get; set; }
+
+		public MyInnerType NonRequiredInner { get; set; }
 	}
 
-	[JsonConverter(typeof(JsonStringEnumConverter))]
-	public enum MyEnum
+
+	public class MyInnerType
 	{
-		Value1 = 1,
-		Value2 = 2
+		public int IgnoreMe { get; set; }
 	}
 }
