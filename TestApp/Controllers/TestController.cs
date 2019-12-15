@@ -40,9 +40,9 @@ namespace TestApp.Controllers
 		public string NonRequiredString { get; set; }
 
 		[Required]
-		public int RequiredInteger { get; set; }
+		public int? RequiredInteger { get; set; }
 
-		public int NonRequiredInteger { get; set; }
+		public int? NonRequiredInteger { get; set; }
 
 		[Required]
 		public MyInnerType RequiredInner { get; set; }
